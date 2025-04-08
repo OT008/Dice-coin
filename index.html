@@ -2,14 +2,34 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Zar ve Yazı Tura</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zar & Yazı Tura</title>
   <style>
     body {
-      background-color: #121212;
-      color: white;
       font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .game-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
       text-align: center;
-      padding: 40px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
     }
 
     .btn-group {
@@ -17,70 +37,60 @@
     }
 
     button {
-      background-color: #1e1e1e;
+      background-color: #444;
       color: white;
-      border: 2px solid #444;
-      padding: 10px 20px;
+      border: none;
+      padding: 12px 24px;
       margin: 5px;
-      cursor: pointer;
-      border-radius: 8px;
       font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
 
     button:hover {
-      background-color: #333;
+      background-color: #666;
     }
 
-    .section {
-      display: none;
-      margin-top: 20px;
-    }
-
-    .active {
-      display: block;
-    }
-
-    .result {
+    .result-box {
       font-size: 40px;
       margin-top: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .result-box.animate {
+      transform: scale(1.3);
     }
   </style>
 </head>
 <body>
 
-  <h1>Hilesiz Zar & Yazı Tura</h1>
-
-  <div class="btn-group">
-    <button onclick="showSection('dice')">Zar</button>
-    <button onclick="showSection('coin')">Yazı Tura</button>
-  </div>
-
-  <!-- Zar bölümü -->
-  <div id="dice" class="section active">
-    <button onclick="rollDice()">Zarı At</button>
-    <div id="diceResult" class="result">?</div>
-  </div>
-
-  <!-- Yazı Tura bölümü -->
-  <div id="coin" class="section">
-    <button onclick="flipCoin()">Yazı mı Tura mı?</button>
-    <div id="coinResult" class="result">?</div>
+  <div class="game-container">
+    <h1>Hilesiz Zar & Yazı Tura</h1>
+    <div class="btn-group">
+      <button onclick="rollDice()">Zar At</button>
+      <button onclick="flipCoin()">Yazı Tura</button>
+    </div>
+    <div id="result" class="result-box">?</div>
   </div>
 
   <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-
     function rollDice() {
       const result = Math.floor(Math.random() * 6) + 1;
-      document.getElementById('diceResult').innerText = result;
+      showResult(`Zar: ${result}`);
     }
 
     function flipCoin() {
       const result = Math.random() < 0.5 ? "Yazı" : "Tura";
-      document.getElementById('coinResult').innerText = result;
+      showResult(`Yazı Tura: ${result}`);
+    }
+
+    function showResult(text) {
+      const box = document.getElementById('result');
+      box.classList.remove('animate');
+      void box.offsetWidth; // animasyonu sıfırlamak için
+      box.textContent = text;
+      box.classList.add('animate');
     }
   </script>
 
